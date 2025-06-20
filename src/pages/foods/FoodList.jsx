@@ -1,8 +1,5 @@
-// Add this at the top of FoodList.jsx
-import { Heading } from '@chakra-ui/react'
-// src/pages/foods/FoodList.jsx
+import { Heading, Table, Thead, Tr, Th, Td, Button, IconButton, Box, Flex } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
-import { Table, Thead, Tbody, Tr, Th, Td, Button, IconButton, Box, Flex, useToast } from '@chakra-ui/react'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import api from '../../services/api'
 import { Link } from 'react-router-dom'
@@ -10,7 +7,6 @@ import { Link } from 'react-router-dom'
 export default function FoodList() {
   const [foods, setFoods] = useState([])
   const [loading, setLoading] = useState(true)
-  const toast = useToast()
 
   useEffect(() => {
     fetchFoods()
@@ -22,34 +18,17 @@ export default function FoodList() {
       setFoods(response.data)
       setLoading(false)
     } catch (error) {
-      toast({
-        title: 'Error loading foods',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
+      alert(`Error loading foods: ${error.message}`)
     }
   }
 
   const handleDelete = async (id) => {
     try {
       await api.delete(`/foods/${id}`)
-      toast({
-        title: 'Food deleted',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
+      alert('Food deleted successfully')
       fetchFoods()
     } catch (error) {
-      toast({
-        title: 'Error deleting food',
-        description: error.message,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
+      alert(`Error deleting food: ${error.message}`)
     }
   }
 
@@ -74,7 +53,7 @@ export default function FoodList() {
               <Th>Actions</Th>
             </Tr>
           </Thead>
-          <Tbody>
+          <tbody>
             {foods.map((food) => (
               <Tr key={food._id}>
                 <Td>{food.name}</Td>
@@ -100,7 +79,7 @@ export default function FoodList() {
                 </Td>
               </Tr>
             ))}
-          </Tbody>
+          </tbody>
         </Table>
       </Box>
     </Box>

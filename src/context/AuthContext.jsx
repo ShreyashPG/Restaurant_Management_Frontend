@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import { createContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../services/api'
@@ -13,7 +12,12 @@ export default function AuthContextProvider({ children }) {
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
     if (storedUser) {
-      setUser(JSON.parse(storedUser))
+      try {
+        setUser(JSON.parse(storedUser))
+      } catch (e) {
+        console.error('Error parsing user data:', e)
+        localStorage.removeItem('user')
+      }
     }
     setLoading(false)
   }, [])
@@ -49,7 +53,13 @@ export default function AuthContextProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      signup, 
+      logout, 
+      loading 
+    }}>
       {children}
     </AuthContext.Provider>
   )

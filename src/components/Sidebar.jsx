@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import { NavLink } from 'react-router-dom'
 import { Box, VStack, Link, Text } from '@chakra-ui/react'
 
@@ -24,10 +23,12 @@ export default function Sidebar() {
             {({ isActive }) => (
               <Link
                 px={4}
-                py={2}
+                py={3}
                 borderRadius="md"
                 bg={isActive ? 'blue.500' : 'transparent'}
-                _hover={{ bg: 'gray.700' }}
+                _hover={{ bg: isActive ? 'blue.600' : 'gray.700' }}
+                fontWeight={isActive ? 'bold' : 'normal'}
+                display="block"
               >
                 {item.name}
               </Link>
